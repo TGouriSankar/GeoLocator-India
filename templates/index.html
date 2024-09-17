@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map with Coordinates</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 800px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Location Map</h1>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([20.5937, 78.9629], 5); // Default view (India)
+
+        // Set up the OSM layer ONLINE MAP
+        // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        //     maxZoom: 19,
+        // }).addTo(map);
+
+        L.tileLayer('http://127.0.0.1:8082/tile/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+
+        // Function to update the map with the marker
+        function updateMap(lat, lon) {
+            map.setView([lat, lon], 13); // Zoom in on the given lat/lon
+            L.marker([lat, lon]).addTo(map)
+                .bindPopup(`Location: [${lat}, ${lon}]`)
+                .openPopup();
+        }
+
+        // Example: Hardcoded lat/lon for now
+        updateMap(34.083656, 74.797371);  // Srinagar, Jammu & Kashmir
+    </script>
+</body>
+</html>

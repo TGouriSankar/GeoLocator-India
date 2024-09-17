@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Map with Details</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 800px;
+            width: 100%;
+        }
+        #search-box {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        #search-box input {
+            width: 100px;
+            margin-right: 5px;
+        }
+        #location-details {
+            position: absolute;
+            top: 100px;
+            left: 1650px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+        }
+        #location-details h3 {
+            margin: 0;
+            padding-bottom: 10px;
+        }
+        #location-details p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Location Map</h1>
+    <div id="search-box">
+        <label for="lat-input">Lat:</label>
+        <input type="text" id="lat-input" placeholder="Latitude">
+        <label for="lon-input">Lon:</label>
+        <input type="text" id="lon-input" placeholder="Longitude">
+        <button onclick="searchLocation()">Search</button>
+    </div>
+    <div id="location-details">
+        <h3 id="location-title">Location Details</h3>
+        <p><strong>State:</strong> <span id="state-name"></span></p>
+        <p><strong>District:</strong> <span id="district-name"></span></p>
+        <p><strong>City/Town:</strong> <span id="city-name"></span></p>
+        <p><strong>PIN Code:</strong> <span id="pin-code"></span></p>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map with a default view
+        var map = L.map('map').setView([20.5937, 78.9629], 5); // India coordinates
+
+        // Add map layer from OSM or any other tiles
+        L.tileLayer('http://127.0.0.1:8082/tile/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        // Update the map with a marker
+        function updateMap(lat, lon) {
+            map.setView([lat, lon], 13); // Zoom in on the given lat/lon
+            L.marker([lat, lon]).addTo(map)
+                .bindPopup(`Location: [${lat}, ${lon}]`)
+                .openPopup();
+        }
+
+        // Function to handle location search
+        function searchLocation() {
+            var lat = parseFloat(document.getElementById('lat-input').value);
+            var lon = parseFloat(document.getElementById('lon-input').value);
+
+            if (!isNaN(lat) && !isNaN(lon)) {
+                updateMap(lat, lon);
+                showLocationDetails(lat, lon);
+            } else {
+                alert('Please enter valid latitude and longitude values.');
+            }
+        }
+
+        // Function to simulate fetching location details (replace with actual API)
+        function showLocationDetails(lat, lon) {
+            // Simulate fetching data from an API
+            var locationData = {
+                state: 'Jammu & Kashmir',
+                district: 'Srinagar',
+                city: 'Srinagar',
+                pin: '190001'
+            };
+
+            // Update the details card with fetched data
+            document.getElementById('state-name').textContent = locationData.state;
+            document.getElementById('district-name').textContent = locationData.district;
+            document.getElementById('city-name').textContent = locationData.city;
+            document.getElementById('pin-code').textContent = locationData.pin;
+
+            // Show the location details card
+            document.getElementById('location-details').style.display = 'block';
+        }
+
+        // Example: Display details for a default location
+        updateMap(34.083656, 74.797371); // Srinagar
+        showLocationDetails(34.083656, 74.797371);
+    </script>
+</body>
+</html>
+
