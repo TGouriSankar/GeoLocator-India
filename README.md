@@ -66,7 +66,7 @@ Make sure you have Docker and Docker Compose installed on your machine:
 4:  Access the application: \
   Once the container is running, open your browser and go to: 
 
-    http://localhost:5000
+  -  > http://localhost:5000
 
 5: Using the application:
 
