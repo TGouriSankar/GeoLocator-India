@@ -99,8 +99,7 @@ Make sure you have Docker and Docker Compose installed on your machine:
     - Open a pull request.
 
 **License**
+:smile: :rocket: :tada:
 
 This project is licensed under the MIT License.
-
-
 
